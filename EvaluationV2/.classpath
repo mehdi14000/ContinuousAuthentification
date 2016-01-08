@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="ClientFrameworkPart/src"/>
+	<classpathentry kind="src" path="ClientFrameworkPart/tests"/>
+	<classpathentry kind="src" path="DataExtractor/src"/>
+	<classpathentry kind="src" path="MatlabProxy/src"/>
+	<classpathentry kind="src" path="ServerFrameworkPart/src"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="/home/eleves/promo17/info/crozes/2A/ContinuousAuthentification/EvaluationV2/matlabcontrol-4.1.0.jar"/>
+	<classpathentry kind="lib" path="/home/eleves/promo17/info/crozes/2A/ContinuousAuthentification/EvaluationV2/gson-2.3.1.jar"/>
+	<classpathentry kind="output" path="out/test/ClientFrameworkPart"/>
+</classpath>
