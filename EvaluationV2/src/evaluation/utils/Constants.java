@@ -29,7 +29,7 @@ public class Constants {
 
     }
 
-    public final static double ONE_WEEK = 60*60*24*7;
+    public final static double ONE_WEEK = 60*60*24*7; //604800
     public final static double ONE_MINUTE = 60;
 
 }

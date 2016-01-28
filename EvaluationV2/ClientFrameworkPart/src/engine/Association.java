@@ -26,7 +26,6 @@ public class Association {
             association += value.toDiscreteUniqueValue();
         }
     }
-
     /**
      * Return the association as a string
      * @return the association

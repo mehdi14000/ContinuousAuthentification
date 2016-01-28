@@ -15,18 +15,17 @@ import templateUpdater.StaticTemplateUpdater;
 import verifier.BasicVerifier;
 import verifier.Verifier;
 
+import java.io.*;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
+
 
 /**
  * Created by Julien Hatin on 11/12/15.
  */
 public class Main {
 
-    public static void main(String[] args) throws InterruptedException, NoSuchAlgorithmException {
+    public static void main(String[] args) throws InterruptedException, NoSuchAlgorithmException, FileNotFoundException {
 
         JsonExtractor extractor = JsonExtractor.getInstance();
         HashMap<Integer, List<Feature>> features = extractor.extractFeatures(Constants.datacollectionFile, Constants.dataCollectionSubjects); //On récupère les données des clients pour la base de donnée
@@ -40,7 +39,7 @@ public class Main {
 
         for (int subject : subjects) { //Pour chaque client
             Iterator<Feature> featureIterator = features.get(subject).iterator();//On récupère les données de l'utilisateur actuel qu'on place dans un itérateur
-
+         
             AssociationEngine associationEngine = new AssociationEngine(3); // On associe les événements par 3
 
             //On crée un nouveau vérifieur /!\ chaque utilisateur doit avoir son propre vérifier
@@ -50,21 +49,20 @@ public class Main {
 
             double currentTime = 0d; //Le temps de départ est fixé à zéro
 
-            //Phase d'enrolement
+            //Phase d'enrollement
             while (feature.getTimestamp() < Constants.ONE_WEEK) {
-
                 if ((feature.getTimestamp() < currentTime + SLOT_TIME)) {
                     associationEngine.add(feature.getDiscreteValue());
                 } else {
                     currentTime = currentTime + SLOT_TIME;
                     if (associationEngine.size() > 3) { // Si on a plus de 3 events
-
+  
                         List<Association> associationList = associationEngine.getEventAssociation(); //On récupère les associations
                         associationEngine.clear(); //On oublie pas de vider la liste des valuers
 
                         List<Hash> hashList = hashFunction.performHash(associationList, secretKey); // On récupère la liste des hash
 
-                        verifier.enroll(hashList, currentTime); // On envoi au serveur les hash pour enrollement
+                        verifier.enroll(hashList, currentTime); // On envoie au serveur les hash pour enrollement
                     }
                     currentTime += SLOT_TIME; // On avance de 3 minutes
                 }
@@ -94,11 +92,12 @@ public class Main {
                 feature = featureIterator.next();
             } while (featureIterator.hasNext());
 
-            //On affiche les scores des utilisateurs
+            //On affiche les scores des utilisateurs      
+            System.setOut(new PrintStream(new FileOutputStream("out.log")));// On reidirige la sortie standard vers un fichier 
+            
             System.out.println("utilisateur : " + subject);
-
-            System.out.println(timestampList.toString());
-            System.out.println(scoreList.toString());
+            System.out.println(timestampList.toString()); 
+            System.out.println("\nScore de l'utilisateur\n"+scoreList.toString());
         }
     }
 
