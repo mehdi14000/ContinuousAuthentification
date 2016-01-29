@@ -4,6 +4,9 @@ import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.io.*;
 
+import templateUpdater.StaticTemplateUpdater;
+import verifier.BasicVerifier;
+import verifier.Verifier;
 import engine.Association;
 import engine.AssociationEngine;
 import engine.hashFunction.Hash;
@@ -21,11 +24,13 @@ public final class MyMain {
 	public static List<Hash> enrollementUser(List<Feature> feats,HashFunction hashFunction,SecretKey secretKey) throws NoSuchAlgorithmException{
 	
 		 List<Hash> hashList = null;
-		 double SLOT_TIME = 3 * Constants.ONE_MINUTE; //On echantillone toute les 3 minutes
+		 double SLOT_TIME = 3 * extractorClient.ONE_MINUTE; //On echantillone toute les 3 minutes
 		  
 		 AssociationEngine associationEngine = new AssociationEngine(3); // On associe les événements par 3
 		 double currentTime = 0d; //Le temps de départ est fixé à zéro
 
+		 Iterator<Feature> featureIt=feats.get()
+		 
 		 for(int i=0;i<feats.size();i++){
 			 Feature feat = feats.get(i);
 			 while (feat.getTimestamp() < Constants.ONE_WEEK) {
@@ -45,8 +50,10 @@ public final class MyMain {
 				 }
 		 	}
 		 }
-		 return hashList;
+		 return hashList;	
 	}
+	
+	
 	
 	public static void main(String[] args) throws NoSuchAlgorithmException{
 	
@@ -61,8 +68,13 @@ public final class MyMain {
 	     HashFunction hashGenerate = new Sha256HashFunction();
 	     SecretKey secretKey1 = new Sha256SecretKey("Autre secret");
 	     
-	     double SLOT_TIME = 3 * Constants.ONE_MINUTE; //On echantillone toutes les 3 minutes
+	     double SLOT_TIME = 3 * extractorClient.ONE_MINUTE;
+	     Verifier verifier = new BasicVerifier(new StaticTemplateUpdater(), 0.08, -0.1);
+	     AssociationEngine associationEngine = new AssociationEngine(3);
 	     
+	     List<Double> scoreList = new ArrayList<>();
+    	 List<Double> timestampList = new ArrayList<>();
+    	 
 	     for(int i=0;i<features.size();i++){
 	    	 
 	    	 List<Hash> list1,list2;
@@ -70,8 +82,39 @@ public final class MyMain {
 	    	 list1=enrollementUser(features2.get(i),hashFunction,secretKey);
 	    	 list2=enrollementUser(features.get(i),hashGenerate,secretKey1);
 	    	 
+	    	 list1.addAll(list2); // Concaténation des deux listes et on le met dans la liste normale
+	    	 
+	    	 verifier.enroll(list1, 0d); 
+	 
+	    	 double currentTime = 0d; 
+	    	 
+	    	 for(int j=0;j<features2.size();j++){
+	    		 Iterator<Feature> featureIterator=features2.get(i).iterator();
+	    		 Feature feat=featureIterator.next();
+
+	    		 do{
+	    			 if ((feat.getTimestamp()< currentTime + SLOT_TIME)) {
+	    				 associationEngine.add(feat.getDiscreteValue());
+	    			 } else {
+	    				 currentTime = currentTime + SLOT_TIME;
+	    				 if (associationEngine.size() > 3) { 
+	    					 List<Association> associationList = associationEngine.getEventAssociation(); 
+	    					 associationEngine.clear();
+	    					 List<Hash> hashList = hashFunction.performHash(associationList, secretKey); 
+	    					 verifier.verify(hashList, currentTime); 
+	    				 }
+	    		
+	    				 scoreList.add(verifier.getTrustScore().getScore());
+	    				 timestampList.add(currentTime);
+	    				 currentTime += SLOT_TIME; 
+	    			 }
+	    			 
+	    			feat= featureIterator.next();
+	    		 }while(featureIterator.hasNext());
+	    	 }
 	     }
-	     
+         System.out.println(timestampList.toString()); 
+         System.out.println("\nScore de l'utilisateur\n"+scoreList.toString());
 	     
 	}
 

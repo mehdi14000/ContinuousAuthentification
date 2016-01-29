@@ -1,5 +1,7 @@
 package build_json;
 
+import java.util.Iterator;
+
 import engine.discreteValues.DiscreteValue;
 
 /**
@@ -60,4 +62,5 @@ public class Feature {
                 ", timestamp=" + timestamp +
                 '}';
     }
+
 }

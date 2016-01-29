@@ -68,7 +68,7 @@ public class Main {
                 }
 
                 feature = featureIterator.next();
-            }
+            
 
             //Phase de vérification
             List<Double> scoreList = new ArrayList<>();
@@ -101,5 +101,5 @@ public class Main {
         }
     }
 
-
+    }
 }
