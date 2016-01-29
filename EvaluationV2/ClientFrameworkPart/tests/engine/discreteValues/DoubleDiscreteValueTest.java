@@ -1,6 +1,5 @@
 package engine.discreteValues;
 
-import junit.framework.Assert;
 import junit.framework.TestCase;
 
 /**
@@ -16,6 +15,6 @@ public class DoubleDiscreteValueTest extends TestCase {
 
         String stringValue = discreteValue.toDiscreteUniqueValue();
 
-        Assert.assertEquals(stringValue, Double.toString(2.0));
+        assertEquals(stringValue, Double.toString(2.0));
     }
 }

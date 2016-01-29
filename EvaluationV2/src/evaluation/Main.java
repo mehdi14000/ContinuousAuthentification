@@ -61,7 +61,7 @@ public class Main {
                         associationEngine.clear(); //On oublie pas de vider la liste des valuers
 
                         List<Hash> hashList = hashFunction.performHash(associationList, secretKey); // On récupère la liste des hash
-
+                        	
                         verifier.enroll(hashList, currentTime); // On envoie au serveur les hash pour enrollement
                     }
                     currentTime += SLOT_TIME; // On avance de 3 minutes
@@ -93,7 +93,7 @@ public class Main {
             } while (featureIterator.hasNext());
 
             //On affiche les scores des utilisateurs      
-            System.setOut(new PrintStream(new FileOutputStream("out.log")));// On reidirige la sortie standard vers un fichier 
+           // System.setOut(new PrintStream(new FileOutputStream("out.log")));// On reidirige la sortie standard vers un fichier 
             
             System.out.println("utilisateur : " + subject);
             System.out.println(timestampList.toString()); 

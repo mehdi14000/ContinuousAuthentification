@@ -1,6 +1,6 @@
 package engine.discreteValues;
 
-import junit.framework.Assert;
+
 import junit.framework.TestCase;
 
 /**
@@ -10,6 +10,6 @@ public class LongDiscreteValueTest extends TestCase {
 
     public void testToDiscreteUniqueValue() throws Exception {
         LongDiscreteValue discreteValue = new LongDiscreteValue(100000000000000000L);
-        Assert.assertEquals(discreteValue.toDiscreteUniqueValue(), Long.toString(100000000000000000L));
+        assertEquals(discreteValue.toDiscreteUniqueValue(), Long.toString(100000000000000000L));
     }
 }

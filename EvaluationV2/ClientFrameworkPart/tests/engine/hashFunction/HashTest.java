@@ -1,6 +1,6 @@
 package engine.hashFunction;
 
-import junit.framework.Assert;
+
 import junit.framework.TestCase;
 
 /**
@@ -17,12 +17,12 @@ public class HashTest extends TestCase {
     }
 
     public void testGetHash() throws Exception {
-        Assert.assertEquals(hash.getHash(), testString);
+       assertEquals(hash.getHash(), testString);
     }
 
     public void testSetHash() throws Exception {
         String otherString = "other string";
         hash.setHash(otherString);
-        Assert.assertEquals(hash.getHash(), otherString);
+       assertEquals(hash.getHash(), otherString);
     }
 }
