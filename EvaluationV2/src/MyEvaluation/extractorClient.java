@@ -16,7 +16,7 @@ public class extractorClient {
 
     static {
         dataCollectionUsers = new ArrayList<>();
-        dataCollectionUsers.add(2); // le premier est nul
+        dataCollectionUsers.add(2); 
         dataCollectionUsers.add(3);
         dataCollectionUsers.add(4);
        /* dataCollectionUsers.add(5);

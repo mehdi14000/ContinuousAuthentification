@@ -56,7 +56,6 @@ public class Main {
                 } else {
                     currentTime = currentTime + SLOT_TIME;
                     if (associationEngine.size() > 3) { // Si on a plus de 3 events
-  
                         List<Association> associationList = associationEngine.getEventAssociation(); //On récupère les associations
                         associationEngine.clear(); //On oublie pas de vider la liste des valuers
 

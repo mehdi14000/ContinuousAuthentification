@@ -19,13 +19,13 @@ public class Constants {
         dataCollectionSubjects.add(8);
         dataCollectionSubjects.add(10);
         dataCollectionSubjects.add(12);
-        dataCollectionSubjects.add(15);
+        /*dataCollectionSubjects.add(15);
         dataCollectionSubjects.add(19);
         dataCollectionSubjects.add(22);
         dataCollectionSubjects.add(26);
         dataCollectionSubjects.add(28);
         dataCollectionSubjects.add(34);
-        dataCollectionSubjects.add(35);
+        dataCollectionSubjects.add(35);*/
 
     }
 
