@@ -22,7 +22,7 @@ public final class MyMain {
 	
 	public static List<Hash> enrollement(List<Hash> hashList,List<Feature> feats,HashFunction hashFunction,SecretKey secretKey) throws NoSuchAlgorithmException, InterruptedException{
 	
-		 double SLOT_TIME = 3 * extractorClient.ONE_MINUTE; //On echantillone toute les 3 minutes
+		 double SLOT_TIME = 3 * extractorMalware.ONE_MINUTE; //On echantillone toute les 3 minutes
 		 double currentTime = 0d; //Le temps de départ est fixé à zéro
 		 int index=0;
 		 
@@ -43,45 +43,43 @@ public final class MyMain {
 				 currentTime += SLOT_TIME; // On avance de 3 minutes
 			 }
 			index++;
-		 }while((feats.get(index)).getTimestamp() < extractorClient.ONE_WEEK && index <feats.size()-1);
+		 }while((feats.get(index)).getTimestamp() < extractorMalware.ONE_WEEK && index <feats.size()-1);
 
 		 return hashList;	
 	}
+	
 	
 	public static void main(String[] args) throws NoSuchAlgorithmException, FileNotFoundException, InterruptedException{
 	
 		 JsonExtractor extractor = JsonExtractor.getInstance();
 		 
-	     HashMap<Integer, List<Feature>> featuresMalware = extractor.extractFeatures(extractorClient.datacollectionFile,extractorClient.dataCollectionUsers); // 10 clients dont on récupère les données
+	     HashMap<Integer, List<Feature>> featuresMalware = extractor.extractFeatures(extractorMalware.datacollectionFile,extractorMalware.dataCollectionUsers); // 10 clients dont on récupère les données
 	     HashMap<Integer, List<Feature>> featuresUser = extractor.extractFeatures(Constants.datacollectionFile, Constants.dataCollectionSubjects); //10 clients dont on récupère les données
 	     
-	     List<Integer> usersMalware = extractorClient.dataCollectionUsers; //La liste des clients pour le malware [2,3,4]
-	     List<Integer> users = Constants.dataCollectionSubjects; // la liste des clients pour l'user [8,10,12]
-	     
+	     List<Integer> usersMalware = extractorMalware.dataCollectionUsers; //La liste des clients pour le malware 
+	     List<Integer> users = Constants.dataCollectionSubjects; // la liste des clients pour l'user
     	 List<Double> scoreList = new ArrayList();
     	 List<Double> timestampList = new ArrayList();
-    	 
-	     HashFunction hashFunction = new Sha256HashFunction(); 
-	     HashFunction hashGenerate = new Sha256HashFunction();
-	     
-	     SecretKey secretKey = new Sha256SecretKey("Un secret à ne pas partager"); 
-	     SecretKey secretKey1 = new Sha256SecretKey("Autre secret");
-	     
-	     List<Hash> list1=null; 
+    	 List<Hash> list1=null; 
 	     List<Hash> list2=null; 
-	
+	     
+	     HashFunction hashFunctionUser = new Sha256HashFunction(); 
+	     HashFunction hashFunctionMalware = new Sha256HashFunction();
+	     
+	     SecretKey secretKeyUser = new Sha256SecretKey("Un secret à ne pas partager"); 
+	     SecretKey secretKeyMalware = new Sha256SecretKey("Autre secret");
+	     
 	     Verifier verifier = new BasicVerifier(new StaticTemplateUpdater(), 0.08, -0.1);
 	     AssociationEngine associationEngine = new AssociationEngine(3);
 	     
-	     double SLOT_TIME = 3 * extractorClient.ONE_MINUTE;
+	     double SLOT_TIME = 3 * extractorMalware.ONE_MINUTE;
 	     double currentTime = 0d;
-	     
 	     int index=0,index1=0;
 	     
 	     while(index != users.size() && index1 != usersMalware.size()){
 	    	 
-	    	 list1=enrollement(list1,featuresUser.get(users.get(index)), hashFunction,secretKey);
-	    	 list2=enrollement(list2,featuresMalware.get(usersMalware.get(index1)),hashGenerate,secretKey1);
+	    	 list1=enrollement(list1,featuresUser.get(users.get(index)), hashFunctionUser,secretKeyUser);
+	    	 list2=enrollement(list2,featuresMalware.get(usersMalware.get(index1)),hashFunctionMalware,secretKeyMalware);
 	    	 
 	    	 index++;
 	    	 index1++;
@@ -101,7 +99,7 @@ public final class MyMain {
 	    				 if (associationEngine.size() > 3) { 
 	    					 List<Association> associationList = associationEngine.getEventAssociation(); 
 	    					 associationEngine.clear();
-	    					 List<Hash> hashList = hashFunction.performHash(associationList, secretKey); 
+	    					 List<Hash> hashList = hashFunctionUser.performHash(associationList, secretKeyUser); 
 	    					 verifier.verify(hashList, currentTime); 
 	    				 }
 
