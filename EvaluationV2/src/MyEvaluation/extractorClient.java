@@ -18,14 +18,14 @@ public class extractorClient {
         dataCollectionUsers = new ArrayList<>();
         dataCollectionUsers.add(2); 
         dataCollectionUsers.add(3);
-        dataCollectionUsers.add(4);
-       /* dataCollectionUsers.add(5);
+        dataCollectionUsers.add(11);
+        dataCollectionUsers.add(5);
         dataCollectionUsers.add(6);
         dataCollectionUsers.add(7);
         dataCollectionUsers.add(9);
         dataCollectionUsers.add(18);
         dataCollectionUsers.add(27);
-        dataCollectionUsers.add(31);*/
+        dataCollectionUsers.add(31);
     }
 
     public final static double ONE_WEEK = 60*60*24*7; //604800

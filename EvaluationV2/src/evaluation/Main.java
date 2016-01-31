@@ -92,8 +92,6 @@ public class Main {
             } while (featureIterator.hasNext());
 
             //On affiche les scores des utilisateurs      
-           // System.setOut(new PrintStream(new FileOutputStream("out.log")));// On reidirige la sortie standard vers un fichier 
-            
             System.out.println("utilisateur : " + subject);
             System.out.println(timestampList.toString()); 
             System.out.println("\nScore de l'utilisateur\n"+scoreList.toString());
