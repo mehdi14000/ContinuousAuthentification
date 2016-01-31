@@ -18,20 +18,21 @@ import evaluation.utils.Constants;
 import build_json.Feature;
 import build_json.JsonExtractor;
 
-
 public final class MyMain {
 
 	
-	public static List<Hash> enrollementUser(List<Feature> feats,HashFunction hashFunction,SecretKey secretKey) throws NoSuchAlgorithmException{
+	public static List<Hash> enrollement(List<Hash> hashList,List<Feature> feats,HashFunction hashFunction,SecretKey secretKey) throws NoSuchAlgorithmException{
 	
-		 List<Hash> hashList=null;
 		 double SLOT_TIME = 3 * extractorClient.ONE_MINUTE; //On echantillone toute les 3 minutes
 		 double currentTime = 0d; //Le temps de départ est fixé à zéro
 		 
 		 AssociationEngine associationEngine = new AssociationEngine(3); // On associe les événements par 3
 		
 		 Iterator<Feature> featureIterator=feats.iterator();
+		 Iterator<Feature> featureIterator2=feats.iterator();
+		 
 		 Feature feat = featureIterator.next(); 
+		 
 		 do{
 			 while (feat.getTimestamp() < extractorClient.ONE_WEEK) {
 				 if ((feat.getTimestamp() < currentTime + SLOT_TIME)) {
@@ -48,55 +49,62 @@ public final class MyMain {
 					 currentTime += SLOT_TIME; // On avance de 3 minutes
 				 }
 				 feat=featureIterator.next();
-		 	}
-			feat=featureIterator.next();
-		 }while(featureIterator.hasNext());
+			}
+			featureIterator2.next();
+		 }while(featureIterator2.hasNext());
 		 
 		 return hashList;	
 	}
 	
-	
-	
-	public static void main(String[] args) throws NoSuchAlgorithmException, FileNotFoundException{
+	public static void main(String[] args) throws NoSuchAlgorithmException, FileNotFoundException, InterruptedException{
 	
 		 JsonExtractor extractor = JsonExtractor.getInstance();
 		 
 	     HashMap<Integer, List<Feature>> featuresMalware = extractor.extractFeatures(extractorClient.datacollectionFile,extractorClient.dataCollectionUsers); // 10 clients dont on récupère les données
 	     HashMap<Integer, List<Feature>> featuresUser = extractor.extractFeatures(Constants.datacollectionFile, Constants.dataCollectionSubjects); //10 clients dont on récupère les données
 	     
+	     List<Integer> usersMalware = extractorClient.dataCollectionUsers; //La liste des clients pour le malware [2,3,4]
+	     List<Integer> users = Constants.dataCollectionSubjects; // la liste des clients pour l'user [8,10,12]
 	     
-	     List<Integer> users = extractorClient.dataCollectionUsers; //La liste des clients dans le fichier de données
     	 List<Double> scoreList = new ArrayList();
     	 List<Double> timestampList = new ArrayList();
     	 
 	     HashFunction hashFunction = new Sha256HashFunction(); 
-	     SecretKey secretKey = new Sha256SecretKey("Un secret à ne pas partager"); 
-	     
 	     HashFunction hashGenerate = new Sha256HashFunction();
+	     
+	     SecretKey secretKey = new Sha256SecretKey("Un secret à ne pas partager"); 
 	     SecretKey secretKey1 = new Sha256SecretKey("Autre secret");
 	     
-	     double SLOT_TIME = 3 * extractorClient.ONE_MINUTE;
+	     List<Hash> list1=null; 
+	     List<Hash> list2=null; 
+	     
+	     Iterator<Integer> it1=users.iterator();
+	     Iterator<Integer> it2=usersMalware.iterator();
+	     
 	     Verifier verifier = new BasicVerifier(new StaticTemplateUpdater(), 0.08, -0.1);
 	     AssociationEngine associationEngine = new AssociationEngine(3);
+	     
+	     double SLOT_TIME = 3 * extractorClient.ONE_MINUTE;
+	     double currentTime = 0d; 
 
-    	 
-	     for(int user : users){ 
+	     //Phase d'enrollement pour chacune des listes d'utilisateurs(Malware + client normal) à traiter
+	     do{
+	    	 list1=enrollement(list1,featuresUser.get(it1.next()), hashFunction,secretKey);
+	    	 System.out.println("List1"+list1);
+	    	 list2=enrollement(list2,featuresMalware.get(it2.next()),hashGenerate,secretKey1);
+	    	 System.out.println("List2"+list2);
 	    	 
-	    	 Iterator<Feature> featureIt = (featuresMalware.get(user)).iterator();
-	    	 
-	    	 List<Hash> list1=null,list2=null;
-	    	 list1=enrollementUser(featuresUser.get(user),hashFunction,secretKey);
-	    	 list2=enrollementUser(featuresMalware.get(user),hashGenerate,secretKey1);
 	    	 list1.addAll(list2); // Concaténation des deux listes et on le met dans la liste normale
 	    	 
-	    	 verifier.enroll(list1, 0d); 
-	 
-	    	 double currentTime = 0d; 
+	    	 System.out.println("Liste concaténé"+list1);
 	    	 
-	    	 for(int j=0;j<featuresUser.size();j++){
-	    		 Iterator<Feature> featureIterator=featuresUser.get(user).iterator();
-	    		 Feature feat=featureIterator.next();
+	    	 verifier.enroll(list1, 0d); 
 
+	    	 for(int j=0;j<featuresUser.size();j++){
+	    		 
+	    		 it1=users.iterator();
+	    		 Iterator<Feature> featureIterator=featuresUser.get(it1.next()).iterator();
+	    		 Feature feat=featureIterator.next();
 	    		 do{
 	    			 if ((feat.getTimestamp()< currentTime + SLOT_TIME)) {
 	    				 associationEngine.add(feat.getDiscreteValue());
@@ -108,19 +116,23 @@ public final class MyMain {
 	    					 List<Hash> hashList = hashFunction.performHash(associationList, secretKey); 
 	    					 verifier.verify(hashList, currentTime); 
 	    				 }
-	    		
+
 	    				 scoreList.add(verifier.getTrustScore().getScore());
 	    				 timestampList.add(currentTime);
 	    				 currentTime += SLOT_TIME; 
 	    			 }
-	    	         
-	    			feat= featureIterator.next();
+
+	    			 feat= featureIterator.next();
 	    		 }while(featureIterator.hasNext());
 	    	 }
-	     }
-	     
-         System.out.println(timestampList.toString()); 
-         System.out.println("\nScore de l'utilisateur\n"+scoreList.toString());
+	    	 
+	    	 /*System.out.println(timestampList.toString()); 
+		     System.out.println("\nScore de l'utilisateur\n"+scoreList.toString());*/
+		     Thread.sleep(10000);
+		     System.out.println((it1.next()));
+		     System.out.println((it2.next()));
+		     
+	     }while(it1.hasNext() && it2.hasNext());
 	     
 	}
 
