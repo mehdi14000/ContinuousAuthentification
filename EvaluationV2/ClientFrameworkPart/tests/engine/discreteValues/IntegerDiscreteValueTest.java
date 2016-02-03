@@ -1,6 +1,5 @@
 package engine.discreteValues;
 
-import junit.framework.Assert;
 import junit.framework.TestCase;
 
 /**
@@ -11,7 +10,7 @@ public class IntegerDiscreteValueTest extends TestCase {
     public void testToDiscreteUniqueValue() throws Exception {
 
         IntegerDiscreteValue discreteValue = new IntegerDiscreteValue(5);
-        Assert.assertEquals(discreteValue.toDiscreteUniqueValue(), Integer.toString(5));
+        assertEquals(discreteValue.toDiscreteUniqueValue(), Integer.toString(5));
 
     }
 }

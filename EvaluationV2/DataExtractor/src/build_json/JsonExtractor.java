@@ -33,7 +33,7 @@ public class JsonExtractor {
         HashMap<String, ArrayList<ArrayList<Double>>> userFeatures = null;
         HashMap<Integer, List<Feature>> features = new HashMap<>();
         try {
-            userFeatures = gson.fromJson(new FileReader(jsonFile), new HashMap<String, double[][]>().getClass());
+            userFeatures = gson.fromJson(new FileReader(jsonFile), new HashMap<String, double[][]>().getClass()); // NOSONAR
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

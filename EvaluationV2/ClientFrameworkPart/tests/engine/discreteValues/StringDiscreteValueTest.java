@@ -1,6 +1,5 @@
 package engine.discreteValues;
 
-import junit.framework.Assert;
 import junit.framework.TestCase;
 
 /**
@@ -10,6 +9,6 @@ public class StringDiscreteValueTest extends TestCase {
 
     public void testToDiscreteUniqueValue() throws Exception {
         StringDiscreteValue discreteValue = new StringDiscreteValue("wifiA");
-        Assert.assertEquals(discreteValue.toDiscreteUniqueValue(), "wifiA");
+        assertEquals(discreteValue.toDiscreteUniqueValue(), "wifiA");
     }
 }

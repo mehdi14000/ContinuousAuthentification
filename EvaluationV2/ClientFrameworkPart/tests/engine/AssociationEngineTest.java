@@ -1,7 +1,6 @@
 package engine;
 
 import engine.discreteValues.StringDiscreteValue;
-import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import java.util.List;
@@ -30,28 +29,28 @@ public class AssociationEngineTest extends TestCase {
         associationEngine.add(new StringDiscreteValue("accelerometer1"));
         associationEngine.add(new StringDiscreteValue("nodeA"));
 
-        Assert.assertEquals(associationEngine.size(), 5);
+        assertEquals(associationEngine.size(), 5);
         List<Association> associationList = associationEngine.getEventAssociation();
 
-        Assert.assertEquals(associationList.size(), 3);
-        Assert.assertEquals(associationEngine.size(), 5);
+        assertEquals(associationList.size(), 3);
+        assertEquals(associationEngine.size(), 5);
 
         associationEngine.setNumberOfDiscreteValues(4);
         associationList = associationEngine.getEventAssociation();
 
-        Assert.assertEquals(associationList.size(), 1);
+        assertEquals(associationList.size(), 1);
 
     }
 
     public void testGetNumberOfDiscreteValues() throws Exception {
-        Assert.assertEquals(associationEngine.getNumberOfDiscreteValues(), 3);
+        assertEquals(associationEngine.getNumberOfDiscreteValues(), 3);
     }
 
     public void testSetNumberOfDiscreteValues() throws Exception {
         associationEngine.setNumberOfDiscreteValues(5);
-        Assert.assertEquals(associationEngine.getNumberOfDiscreteValues(), 5);
+        assertEquals(associationEngine.getNumberOfDiscreteValues(), 5);
         associationEngine.setNumberOfDiscreteValues(3);
-        Assert.assertEquals(associationEngine.getNumberOfDiscreteValues(), 3);
+        assertEquals(associationEngine.getNumberOfDiscreteValues(), 3);
     }
 
     public void testEquals() throws Exception {

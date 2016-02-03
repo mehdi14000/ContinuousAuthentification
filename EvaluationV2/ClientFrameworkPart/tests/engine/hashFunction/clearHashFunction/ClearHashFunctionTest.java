@@ -4,7 +4,6 @@ import engine.Association;
 import engine.discreteValues.DiscreteValue;
 import engine.discreteValues.StringDiscreteValue;
 import engine.hashFunction.Hash;
-import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import java.util.ArrayList;
@@ -27,6 +26,6 @@ public class ClearHashFunctionTest extends TestCase {
 
         associationList.add(new Association(discreteValueList));
         List<Hash> hash = new ClearHashFunction().performHash(associationList, new DummyKey());
-        Assert.assertEquals(hash.get(0).getHash(), "wifiAwifiBwifiC");
+        assertEquals(hash.get(0).getHash(), "wifiAwifiBwifiC");
     }
 }
