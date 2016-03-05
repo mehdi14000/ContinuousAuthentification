@@ -1,10 +1,7 @@
 package evaluation.utils;
 
-import engine.discreteValues.IntegerDiscreteValue;
-
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Julien Hatin on 12/12/15.
@@ -21,11 +18,11 @@ public class Constants {
         dataCollectionSubjects.add(12);
         dataCollectionSubjects.add(15);
         dataCollectionSubjects.add(19);
-       /* dataCollectionSubjects.add(22);
+        dataCollectionSubjects.add(22);
         dataCollectionSubjects.add(26);
         dataCollectionSubjects.add(28);
         dataCollectionSubjects.add(34);
-        dataCollectionSubjects.add(35);*/
+        dataCollectionSubjects.add(35);
 
     }
 

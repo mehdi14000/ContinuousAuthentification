@@ -1,10 +1,2 @@
-/MyEvaluation
-/build_json
-/engine
-/evaluation
-/matlabProxy
-/template
-/templateUpdater
-/trustScore
-/utils
-/verifier
+/evaluation/
+/MyEvaluation/

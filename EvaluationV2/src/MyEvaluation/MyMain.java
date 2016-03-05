@@ -7,9 +7,6 @@ import java.io.*;
 import templateUpdater.StaticTemplateUpdater;
 import verifier.BasicVerifier;
 import verifier.Verifier;
-import engine.Association;
-import engine.AssociationEngine;
-import engine.hashFunction.Hash;
 import engine.hashFunction.HashFunction;
 import engine.hashFunction.SecretKey;
 import engine.hashFunction.sha256.Sha256HashFunction;
@@ -19,8 +16,39 @@ import build_json.Feature;
 import build_json.JsonExtractor;
 
 public final class MyMain {
+	
+	public static void printScore(Verification v,String pathfile ){
+		
+		try {
+			System.setOut(new PrintStream(new FileOutputStream(pathfile)));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
+		StringTokenizer delimiter=new StringTokenizer(v.getScoreList().toString(),",");
+		while(delimiter.hasMoreTokens()){
+			System.out.println(delimiter.nextToken());
+		}
+		
+	}
 
+	public static void printTimeStamp(Verification verifier,String pathfile){
+		
+		try {
+			System.setOut(new PrintStream(new FileOutputStream(pathfile)));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+ 
+		StringTokenizer delimiter=new StringTokenizer(verifier.getTimestampList().toString(),",");
+		while(delimiter.hasMoreTokens()){
+			System.out.println(delimiter.nextToken());
+		}
+		
+		
+	}
 
 	public static void main(String[] args) throws NoSuchAlgorithmException, FileNotFoundException, InterruptedException{
 
@@ -40,16 +68,15 @@ public final class MyMain {
 		SecretKey secretKeyMalware = new Sha256SecretKey("Autre secret");
 
 		Verifier verifier = new BasicVerifier(new StaticTemplateUpdater(), 0.08, -0.1);
-		
+
 		Enrollment enrol = new Enrollment(featuresUser , verifier,  hashFunctionUser, 
-				  hashFunctionMalware , secretKeyUser, secretKeyMalware);
+				hashFunctionMalware , secretKeyUser, secretKeyMalware);
 		Verification v = new Verification(featuresUser , verifier,  hashFunctionUser, 
-				  						hashFunctionMalware , secretKeyUser, secretKeyMalware);
-		
+				hashFunctionMalware , secretKeyUser, secretKeyMalware);
+
 
 		int index=0,index1=0;
-
-
+		
 		while(index != users.size() && index1 != usersMalware.size()){
 			int index2=0;
 
@@ -58,16 +85,14 @@ public final class MyMain {
 				index++;
 				index1++;
 				v.verif(user);
-			
-				System.setOut(new PrintStream(new FileOutputStream("out.txt")));	 
-				//System.out.println("utilisateur : "+ user);
-				//System.out.println(v.getTimestampList().toString()); 
-				System.out.println("\nScore de l'utilisateur\n"+v.getScoreList().toString());
+				printScore(v,"./out/vecteur/score.txt");
+				printTimeStamp(v,"./out/vecteur/timestamp.txt");
+
 			}
-
 		}
-	}
 
+	}
+	
 }
 
 
