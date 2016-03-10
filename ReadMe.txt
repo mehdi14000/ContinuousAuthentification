@@ -11,5 +11,8 @@ Mise a jour du 03 février :
   -> git branch nom de la branche : pour créer une nouvelle branche et se mettre dessus. Pour push on se mettra toujours sur la branche dev !!!!
   -> git checkout : vérifier sur quelle branche on est.
   
-
+  Mise a jour du 10 Mars:
+  
+  Le projet avance bien. Les vecteurs de score ont été bien affichés.Il reste encore à finir le refactoring.
+  Le dernier push a ajouté beaucoup de fichiers sur le git principalement à cause des JFreeChart et JCommon.
   
