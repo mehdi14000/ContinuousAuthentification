@@ -29,7 +29,6 @@ public class Verification {
 	public Verification(HashMap<Integer, List<Feature>> featuresUser ,Verifier verifier , HashFunction hashFunctionUser, 
 						HashFunction hashFunctionMalware ,SecretKey secretKeyUser,SecretKey secretKeyMalware){
 		
-
 		_featuresUser = featuresUser;
 		_verifier = verifier;
 		 _hashFunctionMalware = hashFunctionMalware;
@@ -38,8 +37,6 @@ public class Verification {
 		 _secretKeyUser = secretKeyUser;
 		 _scoreList = new ArrayList<Double>();
 		_timestampList = new ArrayList<Double>(); 
-
-		
 	}
 	
 	public void verif(int user) throws NoSuchAlgorithmException{

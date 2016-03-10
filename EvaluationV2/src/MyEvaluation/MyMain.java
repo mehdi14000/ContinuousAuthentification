@@ -4,6 +4,9 @@ import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.io.*;
 
+import org.jfree.ui.RefineryUtilities;
+
+
 import templateUpdater.StaticTemplateUpdater;
 import verifier.BasicVerifier;
 import verifier.Verifier;
@@ -15,40 +18,9 @@ import evaluation.utils.Constants;
 import build_json.Feature;
 import build_json.JsonExtractor;
 
+
 public final class MyMain {
 	
-	public static void printScore(Verification v,String pathfile ){
-		
-		try {
-			System.setOut(new PrintStream(new FileOutputStream(pathfile)));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		StringTokenizer delimiter=new StringTokenizer(v.getScoreList().toString(),",");
-		while(delimiter.hasMoreTokens()){
-			System.out.println(delimiter.nextToken());
-		}
-		
-	}
-
-	public static void printTimeStamp(Verification verifier,String pathfile){
-		
-		try {
-			System.setOut(new PrintStream(new FileOutputStream(pathfile)));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
- 
-		StringTokenizer delimiter=new StringTokenizer(verifier.getTimestampList().toString(),",");
-		while(delimiter.hasMoreTokens()){
-			System.out.println(delimiter.nextToken());
-		}
-		
-		
-	}
 
 	public static void main(String[] args) throws NoSuchAlgorithmException, FileNotFoundException, InterruptedException{
 
@@ -69,12 +41,10 @@ public final class MyMain {
 
 		Verifier verifier = new BasicVerifier(new StaticTemplateUpdater(), 0.08, -0.1);
 
-		Enrollment enrol = new Enrollment(featuresUser , verifier,  hashFunctionUser, 
-				hashFunctionMalware , secretKeyUser, secretKeyMalware);
-		Verification v = new Verification(featuresUser , verifier,  hashFunctionUser, 
-				hashFunctionMalware , secretKeyUser, secretKeyMalware);
-
-
+		Enrollment enrol = new Enrollment(featuresUser , verifier,  hashFunctionUser,hashFunctionMalware , secretKeyUser, secretKeyMalware);
+		Verification v = new Verification(featuresUser , verifier,  hashFunctionUser,hashFunctionMalware , secretKeyUser, secretKeyMalware);
+		Writer writer = new Writer();
+				
 		int index=0,index1=0;
 		
 		while(index != users.size() && index1 != usersMalware.size()){
@@ -85,12 +55,15 @@ public final class MyMain {
 				index++;
 				index1++;
 				v.verif(user);
-				printScore(v,"./out/vecteur/score.txt");
-				printTimeStamp(v,"./out/vecteur/timestamp.txt");
-
+				writer.printScore(v,"./out/vecteur/score.csv");
+				writer.printTimeStamp(v,"./out/vecteur/timestamp.csv");
 			}
 		}
-
+		
+		Printer printer=new Printer("Vecteur de score");
+		printer.pack();
+		RefineryUtilities.centerFrameOnScreen(printer);
+	    printer.setVisible(true);
 	}
 	
 }
