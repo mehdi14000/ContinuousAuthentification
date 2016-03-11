@@ -29,11 +29,10 @@ public final class Printer extends ApplicationFrame{
 	        String xValue = "";
 	        while (st.hasMoreTokens()) {
 	            xValue = st.nextToken();
-	        }
-	        System.out.println(xValue);
+	        } 
 	        float x = Float.parseFloat(yValue);
 	        float y = Float.parseFloat(xValue);
-	        series.add(y, x);
+	        series.add(y,x);
 	    }
 	    return series;
 	}

@@ -18,7 +18,7 @@ public final class Writer {
 			e.printStackTrace();
 		}
 
-		StringTokenizer delimiter=new StringTokenizer(v.getScoreList().toString(),",");
+		StringTokenizer delimiter=new StringTokenizer(v.getScoreList().toString(),"[,]");
 		while(delimiter.hasMoreTokens()){
 			System.out.println(delimiter.nextToken());
 		}
@@ -34,7 +34,7 @@ public final class Writer {
 			e.printStackTrace();
 		}
  
-		StringTokenizer delimiter=new StringTokenizer(verifier.getTimestampList().toString(),",");
+		StringTokenizer delimiter=new StringTokenizer(verifier.getTimestampList().toString(),"[,]");
 		while(delimiter.hasMoreTokens()){
 			System.out.println(delimiter.nextToken());
 		}

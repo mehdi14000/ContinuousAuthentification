@@ -47,7 +47,7 @@ public final class MyMain {
 				
 		int index=0,index1=0;
 		
-		while(index != users.size() && index1 != usersMalware.size()){
+		/*while(index != users.size() && index1 != usersMalware.size()){
 			int index2=0;
 
 			for(int user:users ){
@@ -58,7 +58,7 @@ public final class MyMain {
 				writer.printScore(v,"./out/vecteur/score.csv");
 				writer.printTimeStamp(v,"./out/vecteur/timestamp.csv");
 			}
-		}
+		}*/
 		
 		Printer printer=new Printer("Vecteur de score");
 		printer.pack();
