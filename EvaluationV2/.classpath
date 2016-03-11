@@ -10,5 +10,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="C:/Users/Mehdi-PC/git/ContinuousAuthentification/EvaluationV2/gson-2.3.1.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Mehdi-PC/git/ContinuousAuthentification/EvaluationV2/matlabcontrol-4.1.0.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JCommon.1.0.23"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JFreeChart 1.0.19"/>
 	<classpathentry kind="output" path="out/test/ClientFrameworkPart"/>
 </classpath>
