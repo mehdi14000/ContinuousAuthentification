@@ -22,22 +22,22 @@ public class Enrollment {
 	private SecretKey _secretKeyUser;
 	private HashFunction _hashFunctionMalware;
 	private SecretKey _secretKeyMalware;
-	
-	
+
+
 	public Enrollment(HashMap<Integer, List<Feature>> featuresUser ,Verifier verifier , HashFunction hashFunctionUser, 
-						HashFunction hashFunctionMalware ,SecretKey secretKeyUser,SecretKey secretKeyMalware){
-		
+			HashFunction hashFunctionMalware ,SecretKey secretKeyUser,SecretKey secretKeyMalware){
+
 		_featuresUser = featuresUser;
 		_verifier = verifier;	
-		 _hashFunctionMalware = hashFunctionMalware;
-		 _hashFunctionUser = hashFunctionUser;
-		 _secretKeyMalware = secretKeyMalware;
-		 _secretKeyUser = secretKeyUser;
-		
+		_hashFunctionMalware = hashFunctionMalware;
+		_hashFunctionUser = hashFunctionUser;
+		_secretKeyMalware = secretKeyMalware;
+		_secretKeyUser = secretKeyUser;
+
 	}
-	
+
 	public void enroll(int index2 , int user) throws NoSuchAlgorithmException{
-		
+
 		List<Hash> list1 = null; 
 		List<Hash> list2 = null;
 		double currentTime = 0d;
@@ -62,14 +62,14 @@ public class Enrollment {
 
 					_verifier.enroll(list1, currentTime); 
 				}	
-				
+
 				currentTime += SLOT_TIME;
 			}
 			index2++; 
 			feat = featureIterator.next();
 		}while((feat.getTimestamp() < extractorMalware.ONE_WEEK && index2 <(_featuresUser.get(user)).size()-1));
-		
-	
+
+
 	}
 
 }

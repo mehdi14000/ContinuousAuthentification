@@ -25,22 +25,22 @@ public class Verification {
 	private SecretKey _secretKeyMalware;
 	private List<Double> _timestampList;
 	private List<Double> _scoreList;
-	
+
 	public Verification(HashMap<Integer, List<Feature>> featuresUser ,Verifier verifier , HashFunction hashFunctionUser, 
-						HashFunction hashFunctionMalware ,SecretKey secretKeyUser,SecretKey secretKeyMalware){
-		
+			HashFunction hashFunctionMalware ,SecretKey secretKeyUser,SecretKey secretKeyMalware){
+
 		_featuresUser = featuresUser;
 		_verifier = verifier;
-		 _hashFunctionMalware = hashFunctionMalware;
-		 _hashFunctionUser = hashFunctionUser;
-		 _secretKeyMalware = secretKeyMalware;
-		 _secretKeyUser = secretKeyUser;
-		 _scoreList = new ArrayList<Double>();
+		_hashFunctionMalware = hashFunctionMalware;
+		_hashFunctionUser = hashFunctionUser;
+		_secretKeyMalware = secretKeyMalware;
+		_secretKeyUser = secretKeyUser;
+		_scoreList = new ArrayList<Double>();
 		_timestampList = new ArrayList<Double>(); 
 	}
-	
+
 	public void verif(int user) throws NoSuchAlgorithmException{
-		
+
 		List<Hash> list1 = null; 
 		List<Hash> list2 = null;
 		double currentTime = 0d;
@@ -65,7 +65,7 @@ public class Verification {
 
 					_verifier.verify(list1, currentTime); 
 				}
-			
+
 				_scoreList.add(_verifier.getTrustScore().getScore());
 				_timestampList.add(currentTime);
 				currentTime += SLOT_TIME; 
@@ -73,8 +73,8 @@ public class Verification {
 
 			feat= featureIterator.next();
 		}while(featureIterator.hasNext());
-	
-		
+
+
 	}
 
 	public List<Double> getTimestampList() {
@@ -85,5 +85,5 @@ public class Verification {
 	public List<Double> getScoreList() {
 		return _scoreList;
 	}
-	
+
 }

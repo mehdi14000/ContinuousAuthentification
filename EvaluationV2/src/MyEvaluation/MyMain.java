@@ -18,9 +18,8 @@ import evaluation.utils.Constants;
 import build_json.Feature;
 import build_json.JsonExtractor;
 
-
 public final class MyMain {
-	
+
 
 	public static void main(String[] args) throws NoSuchAlgorithmException, FileNotFoundException, InterruptedException{
 
@@ -29,14 +28,14 @@ public final class MyMain {
 		HashMap<Integer, List<Feature>> featuresMalware = extractor.extractFeatures(extractorMalware.datacollectionFile,extractorMalware.dataCollectionUsers); // 10 clients dont on récupère les données
 		HashMap<Integer, List<Feature>> featuresUser = extractor.extractFeatures(Constants.datacollectionFile, Constants.dataCollectionSubjects); //10 clients dont on récupère les données
 
-		List<Integer> usersMalware = extractorMalware.dataCollectionUsers; //La liste des clients pour le malware 
-		List<Integer> users = Constants.dataCollectionSubjects; // la liste des clients pour l'user
+		List<Integer> usersMalware = extractorMalware.dataCollectionUsers; 
+		List<Integer> users = Constants.dataCollectionSubjects; 
 
 
 		HashFunction hashFunctionUser = new Sha256HashFunction(); 
 		HashFunction hashFunctionMalware = new Sha256HashFunction();
 
-		SecretKey secretKeyUser = new Sha256SecretKey("Un secret à ne pas partager"); 
+		SecretKey secretKeyUser = new Sha256SecretKey("Un secret a� ne pas partager"); 
 		SecretKey secretKeyMalware = new Sha256SecretKey("Autre secret");
 
 		Verifier verifier = new BasicVerifier(new StaticTemplateUpdater(), 0.08, -0.1);
@@ -44,28 +43,28 @@ public final class MyMain {
 		Enrollment enrol = new Enrollment(featuresUser , verifier,  hashFunctionUser,hashFunctionMalware , secretKeyUser, secretKeyMalware);
 		Verification v = new Verification(featuresUser , verifier,  hashFunctionUser,hashFunctionMalware , secretKeyUser, secretKeyMalware);
 		Writer writer = new Writer();
-				
-		int index=0,index1=0;
-		
-		/*while(index != users.size() && index1 != usersMalware.size()){
+
+		int index_user=0,index_userMalware=0;
+
+		/*while(index_user != users.size() && index_userMalware != usersMalware.size()){
 			int index2=0;
 
 			for(int user:users ){
 				enrol.enroll(index2,user);
-				index++;
-				index1++;
+				index_user++;
+				index_userMalware++;
 				v.verif(user);
-				writer.printScore(v,"./out/vecteur/score.csv");
+				//writer.printScore(v,"./out/vecteur/score.csv");
 				writer.printTimeStamp(v,"./out/vecteur/timestamp.csv");
 			}
 		}*/
-		
+	
 		Printer printer=new Printer("Vecteur de score");
 		printer.pack();
 		RefineryUtilities.centerFrameOnScreen(printer);
-	    printer.setVisible(true);
+		printer.setVisible(true);
 	}
-	
+		
 }
 
 
