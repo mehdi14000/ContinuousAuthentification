@@ -14,7 +14,7 @@ import engine.hashFunction.HashFunction;
 import engine.hashFunction.SecretKey;
 import evaluation.utils.Constants;
 
-public class Enrollment {
+public final class Enrollment {
 
 	private HashMap<Integer, List<Feature>> _featuresUser;
 	private Verifier _verifier;
@@ -36,13 +36,13 @@ public class Enrollment {
 
 	}
 
-	public void enroll(int index2 , int user) throws NoSuchAlgorithmException{
+	public final void enroll(int index_user , int user) throws NoSuchAlgorithmException{
 
-		List<Hash> list1 = null; 
-		List<Hash> list2 = null;
+		List<Hash> list_user = null; 
+		List<Hash> list_userMalware = null;
 		double currentTime = 0d;
 		AssociationEngine _associationEngine = new AssociationEngine(3);
-		double SLOT_TIME= 3 * extractorMalware.ONE_MINUTE;
+		double SLOT_TIME= 3 * ExtractorMalware.ONE_MINUTE;
 		Iterator<Feature> featureIterator=_featuresUser.get(user).iterator();
 		Feature feat=featureIterator.next();
 
@@ -55,19 +55,19 @@ public class Enrollment {
 					List<Association> associationList = _associationEngine.getEventAssociation(); 
 					_associationEngine.clear();
 
-					list1 = _hashFunctionUser.performHash(associationList, _secretKeyUser);
-					list2 = _hashFunctionMalware.performHash(associationList,_secretKeyMalware);
+					list_user = _hashFunctionUser.performHash(associationList, _secretKeyUser);
+					list_userMalware = _hashFunctionMalware.performHash(associationList,_secretKeyMalware);
 
-					list1.addAll(list2);
+					list_user.addAll(list_userMalware);
 
-					_verifier.enroll(list1, currentTime); 
+					_verifier.enroll(list_user, currentTime); 
 				}	
 
 				currentTime += SLOT_TIME;
 			}
-			index2++; 
+			index_user++; 
 			feat = featureIterator.next();
-		}while((feat.getTimestamp() < extractorMalware.ONE_WEEK && index2 <(_featuresUser.get(user)).size()-1));
+		}while((feat.getTimestamp() < ExtractorMalware.ONE_WEEK && index_user <(_featuresUser.get(user)).size()-1));
 
 
 	}

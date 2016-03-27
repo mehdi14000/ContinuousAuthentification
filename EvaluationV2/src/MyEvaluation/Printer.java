@@ -18,21 +18,21 @@ import org.jfree.ui.RefineryUtilities;
 public final class Printer extends ApplicationFrame{
 
 	public XYSeries readSeries(String name) throws IOException {
-		BufferedReader br = new BufferedReader(new FileReader(name));
+		BufferedReader reader = new BufferedReader(new FileReader(name));
 		String line;
 		XYSeries series = new XYSeries(name);
-		while ((line = br.readLine()) != null) {
-			StringTokenizer st = new StringTokenizer(line, ";;,");
-
-			String yValue = st.nextToken();
-
-			String xValue = "";
-			while (st.hasMoreTokens()) {
-				xValue = st.nextToken();
+		while ((line = reader.readLine()) != null){
+			
+			StringTokenizer string_token = new StringTokenizer(line, ";;,");
+			String y_string = string_token.nextToken();
+			String x_string = "";
+			
+			while (string_token.hasMoreTokens()) {
+				x_string = string_token.nextToken();
 			} 
-			float x = Float.parseFloat(yValue);
-			float y = Float.parseFloat(xValue);
-			series.add(y,x);
+			float xValue = Float.parseFloat(y_string);
+			float yValue = Float.parseFloat(x_string);
+			series.add(yValue,xValue);
 		}
 		return series;
 	}

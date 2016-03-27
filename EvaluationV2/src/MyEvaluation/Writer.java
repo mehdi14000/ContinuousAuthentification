@@ -1,6 +1,5 @@
 package MyEvaluation;
 
-
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
@@ -8,8 +7,7 @@ import java.util.StringTokenizer;
 
 public final class Writer {
 
-
-	public void printScore(Verification v,String pathfile ){
+	public final void printScore(Verification verification,String pathfile ){
 
 		try {
 			System.setOut(new PrintStream(new FileOutputStream(pathfile)));
@@ -18,14 +16,14 @@ public final class Writer {
 			e.printStackTrace();
 		}
 
-		StringTokenizer delimiter=new StringTokenizer(v.getScoreList().toString(),"[,]");
+		StringTokenizer delimiter=new StringTokenizer(verification.getScoreList().toString(),"[,]");
 		while(delimiter.hasMoreTokens()){
 			System.out.println(delimiter.nextToken());
 		}
 
 	}
 
-	public void printTimeStamp(Verification verifier,String pathfile){
+	public final void printTimeStamp(Verification verification,String pathfile){
 
 		try {
 			System.setOut(new PrintStream(new FileOutputStream(pathfile)));
@@ -34,7 +32,7 @@ public final class Writer {
 			e.printStackTrace();
 		}
 
-		StringTokenizer delimiter=new StringTokenizer(verifier.getTimestampList().toString(),"[,]");
+		StringTokenizer delimiter=new StringTokenizer(verification.getTimestampList().toString(),"[,]");
 		while(delimiter.hasMoreTokens()){
 			System.out.println(delimiter.nextToken());
 		}

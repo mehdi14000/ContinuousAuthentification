@@ -14,8 +14,7 @@ import engine.hashFunction.Hash;
 import engine.hashFunction.HashFunction;
 import engine.hashFunction.SecretKey;
 
-
-public class Verification {
+public final  class Verification {
 
 	private HashMap<Integer, List<Feature>> _featuresUser;
 	private Verifier _verifier;
@@ -39,13 +38,13 @@ public class Verification {
 		_timestampList = new ArrayList<Double>(); 
 	}
 
-	public void verif(int user) throws NoSuchAlgorithmException{
+	public final void verif(int user) throws NoSuchAlgorithmException{
 
-		List<Hash> list1 = null; 
-		List<Hash> list2 = null;
+		List<Hash> list_user = null; 
+		List<Hash> list_userMalware = null;
 		double currentTime = 0d;
 		AssociationEngine _associationEngine = new AssociationEngine(3);
-		double SLOT_TIME= 3 * extractorMalware.ONE_MINUTE;
+		double SLOT_TIME= 3 * ExtractorMalware.ONE_MINUTE;
 		Iterator<Feature> featureIterator=_featuresUser.get(user).iterator();
 		Feature feat=featureIterator.next();
 
@@ -58,12 +57,12 @@ public class Verification {
 					List<Association> associationList = _associationEngine.getEventAssociation(); 
 					_associationEngine.clear();
 
-					list1 = _hashFunctionUser.performHash(associationList, _secretKeyUser);
-					list2 = _hashFunctionMalware.performHash(associationList,_secretKeyMalware);
+					list_user = _hashFunctionUser.performHash(associationList, _secretKeyUser);
+					list_userMalware = _hashFunctionMalware.performHash(associationList,_secretKeyMalware);
 
-					list1.addAll(list2);
+					list_user.addAll(list_userMalware);
 
-					_verifier.verify(list1, currentTime); 
+					_verifier.verify(list_user, currentTime); 
 				}
 
 				_scoreList.add(_verifier.getTrustScore().getScore());
@@ -73,7 +72,6 @@ public class Verification {
 
 			feat= featureIterator.next();
 		}while(featureIterator.hasNext());
-
 
 	}
 

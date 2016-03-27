@@ -25,12 +25,11 @@ public final class MyMain {
 
 		JsonExtractor extractor = JsonExtractor.getInstance();
 
-		HashMap<Integer, List<Feature>> featuresMalware = extractor.extractFeatures(extractorMalware.datacollectionFile,extractorMalware.dataCollectionUsers); // 10 clients dont on récupère les données
+		HashMap<Integer, List<Feature>> featuresMalware = extractor.extractFeatures(ExtractorMalware.datacollectionFile,ExtractorMalware.dataCollectionUsers); // 10 clients dont on récupère les données
 		HashMap<Integer, List<Feature>> featuresUser = extractor.extractFeatures(Constants.datacollectionFile, Constants.dataCollectionSubjects); //10 clients dont on récupère les données
 
-		List<Integer> usersMalware = extractorMalware.dataCollectionUsers; 
+		List<Integer> usersMalware = ExtractorMalware.dataCollectionUsers; 
 		List<Integer> users = Constants.dataCollectionSubjects; 
-
 
 		HashFunction hashFunctionUser = new Sha256HashFunction(); 
 		HashFunction hashFunctionMalware = new Sha256HashFunction();
@@ -40,21 +39,21 @@ public final class MyMain {
 
 		Verifier verifier = new BasicVerifier(new StaticTemplateUpdater(), 0.08, -0.1);
 
-		Enrollment enrol = new Enrollment(featuresUser , verifier,  hashFunctionUser,hashFunctionMalware , secretKeyUser, secretKeyMalware);
-		Verification v = new Verification(featuresUser , verifier,  hashFunctionUser,hashFunctionMalware , secretKeyUser, secretKeyMalware);
+		Enrollment enroler = new Enrollment(featuresUser , verifier,  hashFunctionUser,hashFunctionMalware , secretKeyUser, secretKeyMalware);
+		Verification verification = new Verification(featuresUser , verifier,  hashFunctionUser,hashFunctionMalware , secretKeyUser, secretKeyMalware);
 		Writer writer = new Writer();
 
 		int index_user=0,index_userMalware=0;
 
 		/*while(index_user != users.size() && index_userMalware != usersMalware.size()){
-			int index2=0;
+			int index_temp=0;
 
 			for(int user:users ){
-				enrol.enroll(index2,user);
+				enroler.enroll(index_temp,user);
 				index_user++;
 				index_userMalware++;
-				v.verif(user);
-				//writer.printScore(v,"./out/vecteur/score.csv");
+				verification.verif(user);
+				writer.printScore(v,"./out/vecteur/score.csv");
 				writer.printTimeStamp(v,"./out/vecteur/timestamp.csv");
 			}
 		}*/
