@@ -14,7 +14,7 @@ import engine.hashFunction.Hash;
 import engine.hashFunction.HashFunction;
 import engine.hashFunction.SecretKey;
 
-public final  class Verification {
+public final class Verification {
 
 	private HashMap<Integer, List<Feature>> _featuresUser;
 	private Verifier _verifier;
@@ -75,12 +75,12 @@ public final  class Verification {
 
 	}
 
-	public List<Double> getTimestampList() {
+	public final List<Double> getTimestampList() {
 		return _timestampList;
 	}
 
 
-	public List<Double> getScoreList() {
+	public final List<Double> getScoreList() {
 		return _scoreList;
 	}
 
